@@ -5,7 +5,6 @@ export const typography = {
         big: {
             fontFamily: 'Inter-ExtraBold',
             fontSize: 26,
-            letterSpacing: '2%',
         },
         main: {
             fontFamily: 'Inter-Bold',
