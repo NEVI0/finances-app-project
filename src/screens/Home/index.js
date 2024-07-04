@@ -2,13 +2,14 @@ import { ScrollView, StatusBar, Text, View } from 'react-native';
 
 import { HeaderActionButton, IconButton, Item } from '../../components';
 
+import { formatCurrency } from '../../helpers/formatCurrency';
+
 import { theme } from '../../theme';
 import { styles } from './styles';
-import { formatCurrency } from '../../helpers/formatCurrency';
 
 export const Home = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+        <ScrollView style={styles.container}>
             <StatusBar animated translucent barStyle="light-content" />
 
             <View style={styles.header}>
