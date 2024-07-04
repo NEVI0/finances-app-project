@@ -5,3 +5,4 @@ export * from './IconButton';
 export * from './HeaderActionButton';
 export * from './Item';
 export * from './SearchBox';
+export * from './CheckBox';
