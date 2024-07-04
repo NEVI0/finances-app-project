@@ -1,7 +1,5 @@
-import { StyleSheet } from 'react-native';
-
 export const typography = {
-    title: StyleSheet.create({
+    title: {
         big: {
             fontFamily: 'Inter-ExtraBold',
             fontSize: 26,
@@ -14,9 +12,9 @@ export const typography = {
             fontFamily: 'Inter-SemiBold',
             fontSize: 18,
         },
-    }),
+    },
     text: {
-        normal: StyleSheet.create({
+        normal: {
             main: {
                 fontFamily: 'Inter-Regular',
                 fontSize: 16,
@@ -25,8 +23,8 @@ export const typography = {
                 fontFamily: 'Inter-Medium',
                 fontSize: 16,
             },
-        }),
-        small: StyleSheet.create({
+        },
+        small: {
             main: {
                 fontFamily: 'Inter-Regular',
                 fontSize: 12,
@@ -35,12 +33,12 @@ export const typography = {
                 fontFamily: 'Inter-Medium',
                 fontSize: 12,
             },
-        }),
-        smaller: StyleSheet.create({
+        },
+        smaller: {
             main: {
                 fontFamily: 'Inter-Regular',
                 fontSize: 10,
             },
-        }),
+        },
     },
 }
