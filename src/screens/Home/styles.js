@@ -1,10 +1,11 @@
-import { Platform, StatusBar, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import { TOP_BAR_HEIGHT } from '../../constants/topBarHeight';
 
 import { theme } from '../../theme';
 
 const SECTION_SPACING = 16;
 const CONTAINER_SPACING = 32;
-const TOP_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
 
 export const styles = StyleSheet.create({
     container: {
