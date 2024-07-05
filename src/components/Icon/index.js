@@ -10,6 +10,7 @@ import BxDollar from '../../../assets/icons/bx-dollar.svg'
 import BxEdit from '../../../assets/icons/bx-edit-alt.svg'
 import BxHome from '../../../assets/icons/bx-home-alt.svg'
 import BxLock from '../../../assets/icons/bx-lock-alt.svg'
+import BxLockOpen from '../../../assets/icons/bx-lock-open-alt.svg'
 import BxLogIn from '../../../assets/icons/bx-log-in.svg'
 import BxLogOut from '../../../assets/icons/bx-log-out.svg'
 import BxMail from '../../../assets/icons/bx-mail.svg'
@@ -34,6 +35,7 @@ const ICONS = {
     'edit': BxEdit,
     'home': BxHome,
     'lock': BxLock,
+    'lock-open': BxLockOpen,
     'log-in': BxLogIn,
     'log-out': BxLogOut,
     'mail': BxMail,
