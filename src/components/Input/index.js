@@ -1,6 +1,6 @@
 import { Text, TextInput, View } from 'react-native';
 
-import { Icon } from '../Icon';
+import { IconButton } from '../IconButton';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
@@ -13,6 +13,8 @@ export const Input = ({
     onChangeText,
     onFocus,
     onBlur,
+    onPressIcon,
+    isPassword = false,
     type = {
         keyboard: 'default',
         value: 'none',
@@ -27,7 +29,8 @@ export const Input = ({
             <View style={styles.input}>
                 <TextInput
                     keyboardType={type.keyboard}
-                    textContentType={type.value}
+                    textContentType={isPassword ? 'password' : type.value}
+                    secureTextEntry={isPassword}
                     style={styles.field}
                     placeholder={placeholder}
                     placeholderTextColor={theme.colors.text.light}
@@ -37,7 +40,11 @@ export const Input = ({
                     onBlur={onBlur}
                 />
 
-                <Icon name={icon} color={theme.colors.primary} />
+                <IconButton
+                    icon={icon}
+                    color={theme.colors.primary}
+                    onPress={onPressIcon}
+                />
             </View>
         </View>
     );
