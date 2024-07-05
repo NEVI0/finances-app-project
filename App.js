@@ -3,10 +3,12 @@ import 'react-native-gesture-handler';
 import { useEffect } from 'react';
 import { LogBox  } from 'react-native';
 
+import { NavigationContainer } from '@react-navigation/native';
+
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
-import { Home } from './src/screens/Home';
+import { Router } from './src/router';
 
 LogBox.ignoreAllLogs();
 SplashScreen.preventAutoHideAsync();
@@ -28,7 +30,11 @@ const App = () => {
 
   if (!loaded && !error) return null;
 
-  return <Home />;
+  return (
+    <NavigationContainer>
+      <Router />
+    </NavigationContainer>
+  );
 }
 
 export default App;
