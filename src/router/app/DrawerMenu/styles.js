@@ -22,11 +22,36 @@ export const styles = StyleSheet.create({
     main: {
         gap: CONTAINER_SPACING,
     },
+    profile: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+    },
+    image: {
+        width: 52,
+        height: 52,
+
+        borderWidth: 2,
+        borderRadius: 12,
+        borderColor: theme.colors.primary,
+        backgroundColor: theme.colors.container.main,
+
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    name: {
+        ...theme.typography.text.normal.medium,
+        color: theme.colors.text.main,
+    },
+    email: {
+        ...theme.typography.text.small.main,
+        color: theme.colors.text.light,
+    },
     title: {
         ...theme.typography.title.sub,
         color: theme.colors.text.main,
     },
     nav: {
         gap: SECTION_SPACING,
-    }
+    },
 });
