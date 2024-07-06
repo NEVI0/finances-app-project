@@ -7,7 +7,7 @@ import { styles } from './styles';
 
 export const Button = ({ text, icon, type = 'primary', onPress }) => {
     return (
-        <TouchableOpacity style={styles[type].button} onPress={onPress}>
+        <TouchableOpacity style={styles[type].button} activeOpacity={0.5} onPress={onPress}>
             <Text style={styles[type].text}>
                 {text}
             </Text>

@@ -5,7 +5,7 @@ import { styles } from './styles';
 
 export const Item = ({ name, category, value, onPress }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={onPress}>
             <View>
                 <Text style={styles.name}>
                     {name}

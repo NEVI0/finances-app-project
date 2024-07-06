@@ -7,7 +7,7 @@ import { theme } from '../../theme';
 
 export const CheckBox = ({ checked, label, onToggle }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={onToggle}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={onToggle}>
             <View style={checked ? styles.checkFill : styles.checkDefault}>
                 {checked && <Icon name="check" size={20} color={theme.colors.text.main} />}
             </View>

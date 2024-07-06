@@ -7,7 +7,7 @@ import { styles } from './styles';
 
 export const NavActionButton = ({ icon, color, text, onPress }) => {
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={onPress}>
             <Icon name={icon} color={color || theme.colors.primary} />
             <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
