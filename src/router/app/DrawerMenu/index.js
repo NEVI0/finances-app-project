@@ -9,7 +9,11 @@ export const DrawerMenu = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.main}>
-                <TouchableOpacity style={styles.profile} activeOpacity={1}>
+                <TouchableOpacity
+                    activeOpacity={1}
+                    style={styles.profile}
+                    onPress={() => navigation.navigate('Profile')}
+                >
                     <View style={styles.image}>
                         <Icon name="user" color={theme.colors.primary} />
                     </View>
@@ -39,19 +43,19 @@ export const DrawerMenu = ({ navigation }) => {
                     <NavActionButton
                         icon="trending-up"
                         text="Entradas"
-                        onPress={() => null}
+                        onPress={() => navigation.navigate('Entries')}
                     />
 
                     <NavActionButton
                         icon="trending-down"
                         text="Saídas"
-                        onPress={() => null}
+                        onPress={() => navigation.navigate('Expenses')}
                     />
 
                     <NavActionButton
                         icon="tag"
                         text="Categorias"
-                        onPress={() => null}
+                        onPress={() => navigation.navigate('Categories')}
                     />
                 </View>
             </View>
