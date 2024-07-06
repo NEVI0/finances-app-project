@@ -5,10 +5,10 @@ import { Icon } from '../Icon';
 import { theme } from '../../theme';
 import { styles } from './styles';
 
-export const HeaderActionButton = ({ icon, text, onPress }) => {
+export const NavActionButton = ({ icon, color, text, onPress }) => {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Icon name={icon} color={theme.colors.primary} />
+            <Icon name={icon} color={color || theme.colors.primary} />
             <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
     );

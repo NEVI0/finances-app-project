@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
 
-import { Button, HeaderActionButton, Input } from '../../components';
+import { Button, NavActionButton, Input } from '../../components';
 
 import { styles } from './styles';
 
@@ -16,7 +16,7 @@ export const Signin = () => {
             <StatusBar animated={true} translucent={true} barStyle="light-content"  />
 
             <View style={styles.header}>
-                <HeaderActionButton
+                <NavActionButton
                     icon="arrow-left"
                     text="Voltar"
                     onPress={() => console.log('Voltar')}

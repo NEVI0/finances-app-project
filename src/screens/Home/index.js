@@ -1,22 +1,22 @@
 import { ScrollView, StatusBar, Text, View } from 'react-native';
 
-import { HeaderActionButton, IconButton, Item } from '../../components';
+import { NavActionButton, IconButton, Item } from '../../components';
 
 import { formatCurrency } from '../../helpers/formatCurrency';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
 
-export const Home = () => {
+export const Home = ({ navigation }) => {
     return (
         <ScrollView style={styles.container}>
             <StatusBar animated translucent barStyle="light-content" />
 
             <View style={styles.header}>
-                <HeaderActionButton
+                <NavActionButton
                     icon="menu"
                     text="Menu"
-                    onPress={() => console.log('Menu')}
+                    onPress={navigation.toggleDrawer}
                 />
 
                 <IconButton
