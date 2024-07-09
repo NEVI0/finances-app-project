@@ -31,10 +31,13 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.container.light,
     },
     field: {
-        flex: 1,
-        height: '100%',
-
         ...theme.typography.text.normal.main,
         color: theme.colors.text.main,
+        flex: 1,
+    },
+    placeholder: {
+        ...theme.typography.text.normal.main,
+        color: theme.colors.text.light,
+        flex: 1,
     },
 });

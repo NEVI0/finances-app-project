@@ -25,8 +25,8 @@ import BxUser from '../../../assets/icons/bx-user.svg'
 import BxX from '../../../assets/icons/bx-x.svg'
 
 const ICONS = {
-    'arrow-back': BxArrowBack,
     'arrow-left': BxArrowLeft,
+    'arrow-right': BxArrowBack,
     'calendar': BxCalendar,
     'check': BxCheck,
     'chevron-down': BxChevronDown,

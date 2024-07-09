@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.primary
     },
     label: {
-        ...theme.typography.text.normal.main,
+        ...theme.typography.text.small.main,
         color: theme.colors.text.main,
     }
 });

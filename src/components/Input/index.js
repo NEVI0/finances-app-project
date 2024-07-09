@@ -7,6 +7,7 @@ import { styles } from './styles';
 
 export const Input = ({
     label,
+    sublabel,
     placeholder = '',
     icon,
     value,
@@ -22,9 +23,15 @@ export const Input = ({
 }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>
-                {label}
-            </Text>
+            <View style={styles.labels}>
+                <Text style={styles.label}>
+                    {label}
+                </Text>
+
+                <Text style={styles.sublabel}>
+                    {sublabel}
+                </Text>
+            </View>
 
             <View style={styles.input}>
                 <TextInput
