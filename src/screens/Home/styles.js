@@ -1,30 +1,27 @@
 import { StyleSheet } from 'react-native';
 
-import { TOP_BAR_HEIGHT } from '../../constants/topBarHeight';
+import { STYLING } from '../../constants/styling';
 
 import { theme } from '../../theme';
 
-const SECTION_SPACING = 16;
-const CONTAINER_SPACING = 32;
-
 export const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: CONTAINER_SPACING,
+        paddingHorizontal: STYLING.CONTAINER_SPACING,
         backgroundColor: theme.colors.container.main
     },
     header: {
-        marginTop: CONTAINER_SPACING + TOP_BAR_HEIGHT,
+        marginTop: STYLING.CONTAINER_SPACING + STYLING.TOP_BAR_HEIGHT,
 
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         
-        marginBottom: CONTAINER_SPACING,
+        marginBottom: STYLING.CONTAINER_SPACING,
     },
     title: {
         ...theme.typography.title.big,
         color: theme.colors.text.main,
-        marginBottom: CONTAINER_SPACING,
+        marginBottom: STYLING.CONTAINER_SPACING,
     },
     smalltitle: {
         ...theme.typography.text.small.main,
@@ -35,11 +32,11 @@ export const styles = StyleSheet.create({
         color: theme.colors.text.main,
     },
     section: {
-        gap: SECTION_SPACING,
-        marginBottom: CONTAINER_SPACING,
+        gap: STYLING.SECTION_SPACING,
+        marginBottom: STYLING.CONTAINER_SPACING,
     },
     subsection: {
-        gap: SECTION_SPACING / 2,
+        gap: STYLING.SECTION_SPACING / 2,
     },
     row: {
         flexDirection: 'row',

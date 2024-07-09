@@ -1,21 +1,17 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-import { TOP_BAR_HEIGHT } from '../../constants/topBarHeight';
-import { BOTTOM_BAR_HEIGHT } from '../../constants/bottomBarHeight';
+import { STYLING } from '../../constants/styling';
 
 import { theme } from '../../theme';
-
-const SECTION_SPACING = 16;
-const CONTAINER_SPACING = 32;
 
 export const styles = StyleSheet.create({
     container: {
         height: Dimensions.get('screen').height,
         
-        paddingHorizontal: CONTAINER_SPACING,
-        paddingTop: CONTAINER_SPACING + TOP_BAR_HEIGHT,
-        paddingBottom: CONTAINER_SPACING + BOTTOM_BAR_HEIGHT,
-        gap: CONTAINER_SPACING,
+        paddingHorizontal: STYLING.CONTAINER_SPACING,
+        paddingTop: STYLING.CONTAINER_SPACING + STYLING.TOP_BAR_HEIGHT,
+        paddingBottom: STYLING.CONTAINER_SPACING + STYLING.BOTTOM_BAR_HEIGHT,
+        gap: STYLING.CONTAINER_SPACING,
         
         backgroundColor: theme.colors.container.main,
     },
@@ -31,13 +27,13 @@ export const styles = StyleSheet.create({
         width: 230,
     },
     section: {
-        gap: SECTION_SPACING,
+        gap: STYLING.SECTION_SPACING,
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: SECTION_SPACING,
+        gap: STYLING.SECTION_SPACING,
     },
     or: {
         ...theme.typography.text.small.main,

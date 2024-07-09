@@ -5,7 +5,7 @@ import { Button, NavActionButton, Input } from '../../components';
 
 import { styles } from './styles';
 
-export const Signin = () => {
+export const Signin = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -19,7 +19,7 @@ export const Signin = () => {
                 <NavActionButton
                     icon="arrow-left"
                     text="Voltar"
-                    onPress={() => console.log('Voltar')}
+                    onPress={() => navigation.goBack()}
                 />
             </View>
 
@@ -67,7 +67,7 @@ export const Signin = () => {
                     type="secondary"
                     text="Criar minha conta"
                     icon="plus"
-                    onPress={() => console.log('Navigate')}
+                    onPress={() => navigation.navigate('Signup1')}
                 />
             </View>
         </View>

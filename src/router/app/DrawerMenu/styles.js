@@ -1,26 +1,23 @@
 import { StyleSheet } from 'react-native';
 
-import { TOP_BAR_HEIGHT } from '../../../constants/topBarHeight';
+import { STYLING } from '../../../constants/styling';
 
 import { theme } from '../../../theme';
-
-const CONTAINER_SPACING = 32;
-const SECTION_SPACING = 16;
 
 export const styles = StyleSheet.create({
     container: {
         height: '100%',
 
-        paddingHorizontal: CONTAINER_SPACING,
-        paddingTop: CONTAINER_SPACING + TOP_BAR_HEIGHT,
-        paddingBottom: CONTAINER_SPACING,
-        gap: CONTAINER_SPACING,
+        paddingHorizontal: STYLING.CONTAINER_SPACING,
+        paddingTop: STYLING.CONTAINER_SPACING + STYLING.TOP_BAR_HEIGHT,
+        paddingBottom: STYLING.CONTAINER_SPACING,
+        gap: STYLING.CONTAINER_SPACING,
 
         justifyContent: 'space-between',
         backgroundColor: theme.colors.container.light,
     },
     main: {
-        gap: CONTAINER_SPACING,
+        gap: STYLING.CONTAINER_SPACING,
     },
     profile: {
         flexDirection: 'row',
@@ -52,6 +49,6 @@ export const styles = StyleSheet.create({
         color: theme.colors.text.main,
     },
     nav: {
-        gap: SECTION_SPACING,
+        gap: STYLING.SECTION_SPACING,
     },
 });
