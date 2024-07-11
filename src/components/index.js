@@ -7,3 +7,4 @@ export * from './Item';
 export * from './SearchBox';
 export * from './CheckBox';
 export * from './Select';
+export * from './Category';
