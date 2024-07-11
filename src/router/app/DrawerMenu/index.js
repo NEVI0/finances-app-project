@@ -15,7 +15,7 @@ export const DrawerMenu = ({ navigation }) => {
                     onPress={() => navigation.navigate('Profile')}
                 >
                     <View style={styles.image}>
-                        <Icon name="user" color={theme.colors.primary} />
+                        <Icon name="user" size={20} color={theme.colors.primary} />
                     </View>
 
                     <View>

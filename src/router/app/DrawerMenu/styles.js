@@ -25,11 +25,11 @@ export const styles = StyleSheet.create({
         gap: 12,
     },
     image: {
-        width: 52,
-        height: 52,
+        width: 56,
+        height: 56,
 
         borderWidth: 2,
-        borderRadius: 12,
+        borderRadius: 100,
         borderColor: theme.colors.primary,
         backgroundColor: theme.colors.container.main,
 
