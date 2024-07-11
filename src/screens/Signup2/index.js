@@ -15,7 +15,7 @@ export const Signup2 = ({ navigation }) => {
     const [isInvester, setIsInvester] = useState(false);
 
     const [investments, setInvestments] = useState(0);
-    const [investerProfile, setInvesterProfile] = useState(0);
+    const [investerProfile, setInvesterProfile] = useState(null);
 
     return <>
         <ScrollView style={styles.container}>
@@ -89,12 +89,13 @@ export const Signup2 = ({ navigation }) => {
                         <Select
                             label="Qual seu perfil como investidor?"
                             sublabel="(opcional)"
-                            value={investerProfile}
-                            options={[
-                                { value: 'um', label: 'Um' },
-                                { value: 'dois', label: 'Dois' },
-                                { value: 'tres', label: 'Três' },
-                            ]}
+                            selectedValue={investerProfile}
+                            onSelect={option => setInvesterProfile(option)}
+                            options={
+                                new Array(10).fill(0).map((_, index) => ({
+                                    value: index, label: 'Item ' + index
+                                }))
+                            }
                         />
                     </>
                 }

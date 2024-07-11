@@ -1,14 +1,80 @@
-import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import { useState } from 'react';
+import { Modal, Text, TouchableOpacity, View, FlatList } from 'react-native';
 
+import { Icon } from '../Icon';
 import { IconButton } from '../IconButton';
 
 import { theme } from '../../theme';
-import { styles } from './styles';
+import { STYLING } from '../../constants/styling';
+import { modal, styles } from './styles';
 
-const Option = () => {
+const Options = ({ open, options = [], onSelect, onClose }) => {
+    
+    const handleSelectItem = item => {
+        onSelect(item);
+        onClose();
+    }
+    
     return (
-        <Modal>
+        <Modal
+            visible={open}
+            transparent={true}
+            collapsable={true}
+            statusBarTranslucent={true}
+            animationType='slide'
+        >
+            <View style={modal.container}>
+                <View style={modal.box}>
+                    <View style={modal.header}>
+                        <Text style={modal.title}>
+                            Opções
+                        </Text>
 
+                        <IconButton
+                            icon="x"
+                            color={theme.colors.primary}
+                            onPress={onClose}
+                        />
+                    </View>
+
+                    {options.length === 0 ? (
+                        <Text style={modal.warning}>
+                            Sem opções disponíveis...
+                        </Text>
+                    ) : (
+                        <FlatList
+                            data={options}
+                            showsVerticalScrollIndicator={false}
+                            keyExtractor={option => String(option.value)}
+                            ListHeaderComponent={() => (
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    style={{ ...modal.option, marginBottom: STYLING.SUBSECTION_SPACING }}
+                                    onPress={() => handleSelectItem(null)}
+                                >
+                                    <Text style={modal.label}>
+                                        Deselecionar
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                            renderItem={option => (
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    style={modal.option}
+                                    onPress={() => handleSelectItem(option.item)}
+                                >
+                                    <Text style={modal.label}>
+                                        {option.item.label}
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                            ItemSeparatorComponent={() => (
+                                <View style={{ height: STYLING.SUBSECTION_SPACING }} />
+                            )}
+                        />
+                    )}
+                </View>
+            </View>
         </Modal>
     );
 }
@@ -17,9 +83,11 @@ export const Select = ({
     label,
     sublabel,
     options,
-    value,
+    selectedValue,
     onSelect,
 }) => {
+    const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+
     return (
         <View style={styles.container}>
             <View style={styles.labels}>
@@ -32,16 +100,27 @@ export const Select = ({
                 </Text>
             </View>
 
-            <TouchableOpacity style={styles.input} activeOpacity={1}>
-                <Text style={!!value ? styles.field : styles.placeholder}>
-                    {!!value ? value : 'Selecionar'}
+            <TouchableOpacity
+                style={styles.input}
+                activeOpacity={1}
+                onPress={() => setIsOptionsOpen(!isOptionsOpen)}
+            >
+                <Text style={!!selectedValue ? styles.field : styles.placeholder}>
+                    {!!selectedValue ? selectedValue.label : 'Selecionar'}
                 </Text>
 
-                <IconButton
+                <Icon
                     icon="chevron-down"
                     color={theme.colors.primary}
                 />
             </TouchableOpacity>
+
+            <Options
+                open={isOptionsOpen}
+                options={options}
+                onSelect={onSelect}
+                onClose={() => setIsOptionsOpen(!isOptionsOpen)}
+            />
         </View>
     );
 }
