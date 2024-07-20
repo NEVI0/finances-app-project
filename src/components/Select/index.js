@@ -110,7 +110,7 @@ export const Select = ({
                 </Text>
 
                 <Icon
-                    icon="chevron-down"
+                    name="chevron-down"
                     color={theme.colors.primary}
                 />
             </TouchableOpacity>
