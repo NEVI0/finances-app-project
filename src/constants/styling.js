@@ -1,6 +1,6 @@
 import { Platform, StatusBar } from 'react-native';
 
-const TOP_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
+const TOP_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 32;
 const BOTTOM_BAR_HEIGHT = 28;
 const CONTAINER_SPACING = 32;
 const SECTION_SPACING = 16;
