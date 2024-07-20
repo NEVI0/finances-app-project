@@ -23,7 +23,7 @@ export const Expenses = ({ navigation }) => {
                 <IconButton
                     icon="plus"
                     color={theme.colors.primary}
-                    onPress={() => console.log('new')}
+                    onPress={() => navigation.navigate('AddExpense')}
                 />
             </View>
 

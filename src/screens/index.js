@@ -1,4 +1,5 @@
 export * from './AddEntry';
+export * from './AddExpense';
 export * from './Categories';
 export * from './EditProfile';
 export * from './Entries';
