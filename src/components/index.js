@@ -9,3 +9,4 @@ export * from './CheckBox';
 export * from './Select';
 export * from './Category';
 export * from './NewItem';
+export * from './AddCategory';

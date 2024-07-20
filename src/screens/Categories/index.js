@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { ScrollView, StatusBar, Text, View } from 'react-native';
 
-import { NavActionButton, IconButton, Category, SearchBox } from '../../components';
+import { NavActionButton, IconButton, Category, SearchBox, AddCategory } from '../../components';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
 
 export const Categories = ({ navigation }) => {
     const [search, setSearch] = useState('');
+    const [ativo, setAtivo] = useState(false);
 
     return (
         <ScrollView style={styles.container}>
@@ -23,7 +24,7 @@ export const Categories = ({ navigation }) => {
                 <IconButton
                     icon="plus"
                     color={theme.colors.primary}
-                    onPress={() => console.log('new')}
+                    onPress={() => setAtivo(true)}
                 />
             </View>
 
@@ -44,6 +45,10 @@ export const Categories = ({ navigation }) => {
                     ))
                 }
             </View>
+            <AddCategory
+                open={ativo}
+                onClose={()=>{setAtivo(false)}}
+            />
         </ScrollView>
     );
 }
