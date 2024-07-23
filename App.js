@@ -7,8 +7,10 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import Toast from 'react-native-toast-message';
 
 import { Router } from './src/router';
+import { SessionProvider } from './src/contexts/SessionContext';
 
 LogBox.ignoreAllLogs();
 SplashScreen.preventAutoHideAsync();
@@ -32,7 +34,10 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Router />
+      <SessionProvider>
+        <Router />
+        <Toast topOffset={64} />
+      </SessionProvider>
     </NavigationContainer>
   );
 }
