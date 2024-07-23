@@ -102,7 +102,7 @@ export const Profile = ({ navigation }) => {
                 <Button
                     text="Editar meus dados"
                     icon="edit"
-                    onPress={() => console.log('Delete')}
+                    onPress={() => navigation.navigate('EditProfile')}
                 />
             </View>
         </View>

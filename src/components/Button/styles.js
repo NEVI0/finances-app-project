@@ -31,5 +31,15 @@ export const styles = {
             ...theme.typography.text.normal.medium,
             color: theme.colors.text.main
         },
+    }),
+    body:  StyleSheet.create({
+        button: {
+            ...defaultButtonStyle,
+            backgroundColor: theme.colors.container.main,
+        },
+        text: {
+            ...theme.typography.text.normal.medium,
+            color: theme.colors.text.main
+        },
     })
 }

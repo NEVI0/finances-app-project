@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { ScrollView, StatusBar, Text, View } from 'react-native';
 
-import { NavActionButton, IconButton, Item } from '../../components';
+import { NavActionButton, IconButton, Item, NewItem, Button } from '../../components';
 
 import { formatCurrency } from '../../helpers/formatCurrency';
 
@@ -8,6 +9,8 @@ import { theme } from '../../theme';
 import { styles } from './styles';
 
 export const Home = ({ navigation }) => {
+    const [isNewItemModalVisible, setIsNewItemModalVisible] = useState(false);
+
     return (
         <ScrollView style={styles.container}>
             <StatusBar animated translucent barStyle="light-content" />
@@ -22,7 +25,7 @@ export const Home = ({ navigation }) => {
                 <IconButton
                     icon="plus"
                     color={theme.colors.primary}
-                    onPress={() => console.log('new')}
+                    onPress={() => setIsNewItemModalVisible(!isNewItemModalVisible)}
                 />
             </View>
 
@@ -103,6 +106,33 @@ export const Home = ({ navigation }) => {
                     }
                 </View>
             </View>
+
+            <NewItem
+                open={isNewItemModalVisible}
+                onClose={() => setIsNewItemModalVisible(false)}
+            >
+                <Button
+                    text="Entrada"
+                    type="body"
+                    icon="trending-up"
+                    iconColor={theme.colors.others.success}
+                    onPress={() => {
+                        setIsNewItemModalVisible(false);
+                        navigation.navigate('AddEntry')
+                    }}
+                />
+
+                <Button
+                    text="Saída"
+                    type="body"
+                    icon="trending-down"
+                    iconColor={theme.colors.others.error}
+                    onPress={() => {
+                        setIsNewItemModalVisible(false);
+                        navigation.navigate('AddExpense')
+                    }}
+                />
+            </NewItem>
         </ScrollView>
     );
 }
