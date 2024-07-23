@@ -8,7 +8,7 @@ import { theme } from '../../theme';
 import { STYLING } from '../../constants/styling';
 import { modal, styles } from './styles';
 
-const Options = ({ open, options = [], onSelect, onClose }) => {
+const Options = ({ open, options = [], selectedValue, onSelect, onClose }) => {
     
     const handleSelectItem = item => {
         onSelect(item);
@@ -66,6 +66,13 @@ const Options = ({ open, options = [], onSelect, onClose }) => {
                                     <Text style={modal.label}>
                                         {option.item.label}
                                     </Text>
+
+                                    {
+                                    !!selectedValue
+                                    ? selectedValue.value === option.item.value
+                                    ? <Icon name="check" color={theme.colors.primary} />
+                                    : <View /> : <View />
+                                    }
                                 </TouchableOpacity>
                             )}
                             ItemSeparatorComponent={() => (
@@ -110,7 +117,7 @@ export const Select = ({
                 </Text>
 
                 <Icon
-                    icon="chevron-down"
+                    name="chevron-down"
                     color={theme.colors.primary}
                 />
             </TouchableOpacity>
@@ -118,6 +125,7 @@ export const Select = ({
             <Options
                 open={isOptionsOpen}
                 options={options}
+                selectedValue={selectedValue}
                 onSelect={onSelect}
                 onClose={() => setIsOptionsOpen(!isOptionsOpen)}
             />

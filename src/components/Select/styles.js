@@ -75,7 +75,9 @@ export const modal = StyleSheet.create({
         paddingHorizontal: 24,
         backgroundColor: theme.colors.container.main,
 
-        justifyContent: 'center'
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     label: {
         ...theme.typography.text.normal.main,
