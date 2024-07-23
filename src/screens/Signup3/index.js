@@ -1,15 +1,28 @@
 import { useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { Button, NavActionButton, Input } from '../../components';
 
 import { styles } from './styles';
 
-export const Signup3 = ({ navigation }) => {
+export const Signup3 = ({ navigation, route }) => {
+    console.log(route.params)
+
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const handleSignup = () => {
+        if (password !== confPassword) {
+            return Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: 'As senhas não são iguais!'
+            });
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -59,7 +72,7 @@ export const Signup3 = ({ navigation }) => {
             <Button
                 text="Criar minha conta"
                 icon="plus"
-                onPress={() => null}
+                onPress={handleSignup}
             />
         </View>
     );

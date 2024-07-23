@@ -66,7 +66,7 @@ export const Signup1 = ({ navigation }) => {
                 type="secondary"
                 text="Próximo"
                 icon="arrow-right"
-                onPress={() => navigation.navigate('Signup2')}
+                onPress={() => navigation.navigate('Signup2', { email, name })}
             />
         </View>
     );

@@ -5,16 +5,13 @@ import { Button, NavActionButton, Input, CheckBox, Select } from '../../componen
 
 import { styles } from './styles';
 
-export const Signup2 = ({ navigation }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-
-    const [salary, setSalary] = useState(0);
-    const [expenses, setExpenses] = useState(0);
+export const Signup2 = ({ navigation, route }) => {
+    const [salary, setSalary] = useState('');
+    const [expenses, setExpenses] = useState('');
 
     const [isInvester, setIsInvester] = useState(false);
 
-    const [investments, setInvestments] = useState(0);
+    const [investments, setInvestments] = useState('');
     const [investerProfile, setInvesterProfile] = useState(null);
 
     return <>
@@ -57,17 +54,19 @@ export const Signup2 = ({ navigation }) => {
                 <Input
                     label="Salário mensal"
                     sublabel="(opcional)"
+                    type={{ keyboard: 'numeric' }}
                     icon="dollar"
-                    value={String(salary)}
-                    onChangeText={text => setSalary(Number(text))}
+                    value={salary}
+                    onChangeText={text => setSalary(text)}
                 />
 
                 <Input
                     label="Despesas mensais"
                     sublabel="(opcional)"
+                    type={{ keyboard: 'numeric' }}
                     icon="dollar"
-                    value={String(expenses)}
-                    onChangeText={text => setExpenses(Number(text))}
+                    value={expenses}
+                    onChangeText={text => setExpenses(text)}
                 />
 
                 <CheckBox
@@ -81,9 +80,10 @@ export const Signup2 = ({ navigation }) => {
                         <Input
                             label="Quanto você investe mensalmente"
                             sublabel="(opcional)"
+                            type={{ keyboard: 'numeric' }}
                             icon="dollar"
-                            value={String(investments)}
-                            onChangeText={text => setInvestments(Number(text))}
+                            value={investments}
+                            onChangeText={text => setInvestments(text)}
                         />
 
                         <Select
@@ -91,11 +91,11 @@ export const Signup2 = ({ navigation }) => {
                             sublabel="(opcional)"
                             selectedValue={investerProfile}
                             onSelect={option => setInvesterProfile(option)}
-                            options={
-                                new Array(10).fill(0).map((_, index) => ({
-                                    value: index, label: 'Item ' + index
-                                }))
-                            }
+                            options={[
+                                { label: 'Conservador', value: 'Conservador' },
+                                { label: 'Moderado', value: 'Moderado' },
+                                { label: 'Arrojado', value: 'Arrojado' },
+                            ]}
                         />
                     </>
                 }
@@ -107,7 +107,16 @@ export const Signup2 = ({ navigation }) => {
                 type="secondary"
                 text="Próximo"
                 icon="arrow-right"
-                onPress={() => navigation.navigate('Signup3')}
+                onPress={() => {
+                    navigation.navigate('Signup3', { 
+                        ...route.params,
+                        salary,
+                        expenses,
+                        isInvester,
+                        investments,
+                        investerProfile, 
+                    });
+                }}
             />
         </View>
     </>;
