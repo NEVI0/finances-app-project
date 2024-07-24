@@ -6,13 +6,22 @@ import { Button, NavActionButton, Input } from '../../components';
 
 import { styles } from './styles';
 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseApp } from '../../../firebaseConfig';
+
+import { useSession } from '../../contexts';
+
+const auth = getAuth(firebaseApp);
+
 export const Signup3 = ({ navigation, route }) => {
-    console.log(route.params)
+    const { email } = route.params;
 
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const { setUser } = useSession();
 
     const handleSignup = () => {
         if (password !== confPassword) {
@@ -22,6 +31,25 @@ export const Signup3 = ({ navigation, route }) => {
                 text2: 'As senhas não são iguais!'
             });
         }
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                setUser(user)
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: errorMessage
+                });
+                // ..
+            });
     }
 
     return (

@@ -5,7 +5,7 @@ export const SessionProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     return (
-        <SessionContext.Provider value={{ user }}>
+        <SessionContext.Provider value={{ user, setUser }}>
             {children}
         </SessionContext.Provider>
     );

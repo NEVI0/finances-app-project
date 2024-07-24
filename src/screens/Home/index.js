@@ -5,11 +5,17 @@ import { NavActionButton, IconButton, Item, NewItem, Button } from '../../compon
 
 import { formatCurrency } from '../../helpers/formatCurrency';
 
+import { useSession } from '../../contexts';
+
 import { theme } from '../../theme';
 import { styles } from './styles';
 
 export const Home = ({ navigation }) => {
+    const { user } = useSession()
+
     const [isNewItemModalVisible, setIsNewItemModalVisible] = useState(false);
+
+    console.log({user})
 
     return (
         <ScrollView style={styles.container}>
