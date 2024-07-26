@@ -1,19 +1,20 @@
 import { initializeApp } from 'firebase/app';
 
-// Optionally import the services that you want to use
-// import {...} from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+import googleService from './google-services.json';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyDmQ-Xc4qOUxGBlZ3eAVwB6bdsH_7a0TyM",
-  appId: '1:324622291395:android:eccac60dedc7cdb2b46d76',
-  storageBucket: 'gs://finances-app-project.appspot.com',
+  projectId: googleService.project_info.project_id,
+  apiKey: googleService.client[0].api_key[0].current_key,
+  appId: googleService.client[0].client_info.mobilesdk_app_id,
 };
 
-export const firebaseApp = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+export const firebaseAuth = getAuth(app);
+export const firebaseDatabase = getFirestore(app);
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
