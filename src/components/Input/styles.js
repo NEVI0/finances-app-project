@@ -23,12 +23,9 @@ export const styles = StyleSheet.create({
     input: {
         height: 52,
         paddingHorizontal: 24,
-        borderRadius: 14,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-
-        backgroundColor: theme.colors.container.light,
     },
     field: {
         flex: 1,

@@ -1,4 +1,4 @@
-import { Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { IconButton } from '../IconButton';
 
@@ -16,11 +16,17 @@ export const Input = ({
     onBlur,
     onPressIcon,
     isPassword = false,
+    background = 'default',
     type = {
         keyboard: 'default',
         value: 'none',
     },
 }) => {
+    const bg = StyleSheet.create({
+        borderRadius: 14,
+        backgroundColor:  theme.colors.container[background === 'default' ? 'light' : 'main']
+    });
+
     return (
         <View style={styles.container}>
             <View style={styles.labels}>
@@ -33,7 +39,7 @@ export const Input = ({
                 </Text>
             </View>
 
-            <View style={styles.input}>
+            <View style={[ styles.input, bg ]}>
                 <TextInput
                     keyboardType={type.keyboard}
                     textContentType={isPassword ? 'password' : type.value}
