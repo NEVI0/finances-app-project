@@ -1,13 +1,54 @@
 import { useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { Button, NavActionButton, Input } from '../../components';
+
+import { REGEXES } from '../../constants/regexes';
 
 import { styles } from './styles';
 
 export const Signup1 = ({ navigation }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+
+    const handleNextStep = () => {
+        if (!name.length) {
+            return Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: 'Você precisa informar seu nome!'
+            });
+        }
+
+        const isNameInvalid = REGEXES.NAME.test(name);
+        if (isNameInvalid) {
+            return Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: 'Informe um nome válido!'
+            });
+        }
+
+        if (!email.length) {
+            return Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: 'Você precisa informar um e-mail!'
+            });
+        }
+
+        const isEmailInvalid = !REGEXES.EMAIL.test(email);
+        if (isEmailInvalid) {
+            return Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: 'Informe um e-mail válido!'
+            });
+        }
+
+        navigation.navigate('Signup2', { email, name });
+    }
 
     return (
         <View style={styles.container}>
@@ -66,7 +107,7 @@ export const Signup1 = ({ navigation }) => {
                 type="secondary"
                 text="Próximo"
                 icon="arrow-right"
-                onPress={() => navigation.navigate('Signup2', { email, name })}
+                onPress={handleNextStep}
             />
         </View>
     );

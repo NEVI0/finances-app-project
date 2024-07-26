@@ -2,28 +2,42 @@ import { useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
+import { signupUserService } from '../../services/auth';
+import { createUserService } from '../../services/user';
+
 import { Button, NavActionButton, Input } from '../../components';
 
+import { useSession } from '../../contexts';
 import { styles } from './styles';
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { firebaseApp } from '../../../firebaseConfig';
-
-import { useSession } from '../../contexts';
-
-const auth = getAuth(firebaseApp);
-
 export const Signup3 = ({ navigation, route }) => {
-    const { email } = route.params;
+    const {
+        name,
+        email,
+        salary,
+        expenses,
+        isInvester,
+        investments,
+        investerProfile,
+    } = route.params;
+
+    const { setUser } = useSession();
 
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { setUser } = useSession();
+    const handleSignup = async () => {
+        if (password.length < 6) {
+            return Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: 'A senha precisa ser 6 ou mais caracteres!'
+            });
+        }
 
-    const handleSignup = () => {
         if (password !== confPassword) {
             return Toast.show({
                 type: 'error',
@@ -32,24 +46,39 @@ export const Signup3 = ({ navigation, route }) => {
             });
         }
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed up 
-                const user = userCredential.user;
-                setUser(user)
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+        try {
+            setIsLoading(true);
 
-                Toast.show({
-                    type: 'error',
-                    text1: 'Alerta!',
-                    text2: errorMessage
-                });
-                // ..
+            const user = await signupUserService(email, password);
+            
+            await createUserService(
+                name,
+                user.uid,
+                salary,
+                expenses,
+                isInvester,
+                investments,
+                investerProfile
+            );
+
+            setUser({
+                ...user,
+                name,
+                salary,
+                expenses,
+                isInvester,
+                investments,
+                investerProfile,
             });
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -100,6 +129,7 @@ export const Signup3 = ({ navigation, route }) => {
             <Button
                 text="Criar minha conta"
                 icon="plus"
+                loading={isLoading}
                 onPress={handleSignup}
             />
         </View>
