@@ -2,9 +2,6 @@ import { useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
-import { signupUserService } from '../../services/auth';
-import { createUserService } from '../../services/user';
-
 import { Button, NavActionButton, Input } from '../../components';
 
 import { useSession } from '../../contexts';
@@ -21,7 +18,7 @@ export const Signup3 = ({ navigation, route }) => {
         investerProfile,
     } = route.params;
 
-    const { setUser } = useSession();
+    const { signup } = useSession();
 
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
@@ -49,27 +46,16 @@ export const Signup3 = ({ navigation, route }) => {
         try {
             setIsLoading(true);
 
-            const user = await signupUserService(email, password);
-            
-            await createUserService(
+            await signup({
                 name,
-                user.uid,
+                email,
+                password,
                 salary,
                 expenses,
                 isInvester,
                 investments,
                 investerProfile
-            );
-
-            setUser({
-                ...user,
-                name,
-                salary,
-                expenses,
-                isInvester,
-                investments,
-                investerProfile,
-            });
+            });            
         } catch (error) {
             Toast.show({
                 type: 'error',
