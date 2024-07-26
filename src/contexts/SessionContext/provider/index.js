@@ -6,7 +6,6 @@ import Toast from 'react-native-toast-message';
 import { createUserService, fetchUserDataService } from '../../../services/user';
 import { signupUserService, signinUserService } from '../../../services/auth';
 
-
 import { SessionContext } from '../hooks/useSession';
 
 export const SessionProvider = ({ children }) => {
@@ -15,11 +14,12 @@ export const SessionProvider = ({ children }) => {
     const signin = async (data) => {
         try {
             const { email, password } = data;
-            const user = await signinUserService(email, password);
-            const userData = await fetchUserDataService(user.uid);
+
+            const authData = await signinUserService(email, password);
+            const userData = await fetchUserDataService(authData.uid);
             
             delete userData.password;
-            const toSaveData = { ...userData, authUid: user.uid };
+            const toSaveData = { ...authData, ...userData, authUid: authData.uid };
 
             await AsyncStorage.setItem('user', JSON.stringify(toSaveData));
             setUser(toSaveData);

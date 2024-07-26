@@ -1,38 +1,35 @@
 import { useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
-
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Toast from 'react-native-toast-message';
 
 import { Button, NavActionButton, Input } from '../../components';
 
-import { styles } from './styles';
-import { firebaseApp } from '../../../firebaseConfig';
 import { useSession } from '../../contexts';
 
-const auth = getAuth(firebaseApp);
+import { styles } from './styles';
 
 export const Signin = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { setUser } = useSession();
+    const { signin } = useSession();
 
-    const handleSignin = () => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                setUser(user);
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                console.log({error})
-            });
+    const handleSignin = async () => {
+        try {
+            setIsLoading(true);
+            await signin({ email, password })
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });   
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -78,6 +75,7 @@ export const Signin = ({ navigation }) => {
                 <Button
                     text="Entrar"
                     icon="log-in"
+                    loading={isLoading}
                     onPress={handleSignin}
                 />
 
