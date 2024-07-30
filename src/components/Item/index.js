@@ -1,11 +1,13 @@
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { formatCurrency } from '../../helpers/formatCurrency';
+import { formatStringToNumber } from '../../helpers/formatStringToNumber';
+
 import { styles } from './styles';
 
-export const Item = ({ name, category, value, onPress }) => {
+export const Item = ({ name, category, value }) => {
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={onPress}>
+        <View style={styles.container}>
             <View>
                 <Text style={styles.name}>
                     {name}
@@ -17,8 +19,8 @@ export const Item = ({ name, category, value, onPress }) => {
             </View>
 
             <Text style={styles.value}>
-                {formatCurrency(value)}
+                {formatCurrency(formatStringToNumber(value))}
             </Text>
-        </TouchableOpacity>
+        </View>
     );
 }
