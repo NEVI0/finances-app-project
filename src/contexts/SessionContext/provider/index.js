@@ -53,8 +53,13 @@ export const SessionProvider = ({ children }) => {
         }
     }
 
+    const signout = async () => {
+        await AsyncStorage.removeItem('user')
+        setUser(null);
+    }
+
     return (
-        <SessionContext.Provider value={{ user, signin, signup, setUser }}>
+        <SessionContext.Provider value={{ user, signin, signup, signout }}>
             {children}
         </SessionContext.Provider>
     );
