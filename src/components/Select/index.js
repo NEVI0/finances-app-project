@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Text, TouchableOpacity, View, FlatList } from 'react-native';
+import { Modal, Text, TouchableOpacity, View, FlatList, ActivityIndicator } from 'react-native';
 
 import { Icon } from '../Icon';
 import { IconButton } from '../IconButton';
@@ -90,6 +90,7 @@ export const Select = ({
     label,
     sublabel,
     options,
+    loading = false,
     selectedValue,
     onSelect,
 }) => {
@@ -109,6 +110,7 @@ export const Select = ({
 
             <TouchableOpacity
                 style={styles.input}
+                disabled={loading}
                 activeOpacity={1}
                 onPress={() => setIsOptionsOpen(!isOptionsOpen)}
             >
@@ -116,10 +118,16 @@ export const Select = ({
                     {!!selectedValue ? selectedValue.label : 'Selecionar'}
                 </Text>
 
-                <Icon
-                    name="chevron-down"
-                    color={theme.colors.primary}
-                />
+                {
+                    loading ? (
+                        <ActivityIndicator color={theme.colors.primary} />
+                    ) : (
+                        <Icon
+                            name="chevron-down"
+                            color={theme.colors.primary}
+                        />
+                    )
+                }
             </TouchableOpacity>
 
             <Options
