@@ -1,13 +1,42 @@
-import { useState } from 'react';
-import { ScrollView, StatusBar, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StatusBar, Text, View } from 'react-native';
 
 import { NavActionButton, IconButton, Item, SearchBox } from '../../components';
+
+import { fetchEntriesService } from '../../services/entry';
+import { useSession } from '../../contexts';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
 
 export const Entries = ({ navigation }) => {
     const [search, setSearch] = useState('');
+    const [entreis, setEntries] = useState([]);
+
+    const [isLoadingData, setIsLoadingData] = useState(false);
+
+    const { user } = useSession();
+
+    const handleFetchEntries = async () => {
+        try {
+            setIsLoadingData(true);
+
+            const data = await fetchEntriesService(user.authUid, search);
+            setEntries(data);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoadingData(false);
+        }
+    }
+
+    useEffect(() => {
+        handleFetchEntries();
+    }, [search]);
 
     return (
         <ScrollView style={styles.container}>
@@ -35,13 +64,18 @@ export const Entries = ({ navigation }) => {
 
             <View style={styles.section}>
                 {
-                    new Array(10).fill(0).map((_, index) => (
+                    isLoadingData ? (
+                        <ActivityIndicator color={theme.colors.primary} />
+                    ) : !entreis.length ? (
+                        <Text style={styles.message}>
+                            Sem nenhuma entrada cadastrada!
+                        </Text>
+                    ) : entreis.map(entry => (
                         <Item
-                            key={index}
-                            name="Nome do item"
-                            category="Categoria"
-                            value={2000}
-                            onPress={() => console.log(index)}
+                            key={entry.title}
+                            name={entry.title}
+                            category={entry.category.label}
+                            value={entry.value}
                         />
                     ))
                 }

@@ -23,6 +23,11 @@ export const styles = StyleSheet.create({
         color: theme.colors.text.main,
         marginBottom: STYLING.CONTAINER_SPACING,
     },
+    message: {
+        ...theme.typography.text.normal.main,
+        color: theme.colors.text.main,
+        textAlign: 'center',
+    },
     section: {
         gap: STYLING.SECTION_SPACING,
         marginVertical: STYLING.CONTAINER_SPACING,

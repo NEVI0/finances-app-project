@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { Button, NavActionButton, Input, Select } from '../../components';
+
+import { createExpenseService } from '../../services/expenses';
+import { fetchCategoriesService } from '../../services/category';
+import { useSession } from '../../contexts';
 
 import { styles } from './styles';
 
@@ -11,6 +16,99 @@ export const AddExpense = ({ navigation }) => {
 
     const [value, setValue] = useState('');
     const [date, setDate] = useState('');
+
+    const [categories, setCategories] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+
+    const { user } = useSession();
+
+    const handleFetchCategories = async () => {
+        try {
+            setIsLoadingCategories(true);
+
+            const data = await fetchCategoriesService(user.authUid);
+            setCategories(data);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoadingCategories(false);
+        }
+    }
+
+    const handleAddExpense = async () => {
+        try {
+            if (!title) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar o título!',
+                });
+            }
+            if (!category) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar a categoria!',
+                });
+            }
+            if (!value) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar o valor!',
+                });
+            }
+            if (!date) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar a data!',
+                });
+            }
+
+            setIsLoading(true);
+
+            await createExpenseService({
+                authUid: user.authUid,
+                title,
+                category,
+                value,
+                date,
+            });
+
+            setTitle('');
+            setCategory(null);
+            setValue('');
+            setDate('');
+            
+            navigation.navigate('Expenses');
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            }); 
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const categoriesOptions = useMemo(() => {
+        return categories.map(category => ({
+            label: category.name,
+            value: category.name,
+        }));
+    }, [categories])
+
+    useEffect(() => {
+        handleFetchCategories();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -39,17 +137,15 @@ export const AddExpense = ({ navigation }) => {
                 <Select
                     label="Categoria"
                     selectedValue={category}
+                    loading={isLoadingCategories}
                     onSelect={option => setCategory(option)}
-                    options={
-                        new Array(10).fill(0).map((_, index) => ({
-                            value: index, label: 'Item ' + index
-                        }))
-                    }
+                    options={categoriesOptions}
                 />
 
                 <Input
-                    label="Valor de saída"
+                    label="Valor da saída"
                     icon="dollar"
+                    type={{ keyboard: 'numeric' }}
                     value={value}
                     onChangeText={setValue}
                 />
@@ -66,7 +162,8 @@ export const AddExpense = ({ navigation }) => {
             <Button
                 text="Adicionar"
                 icon="plus"
-                onPress={() => console.log('Log In')}
+                loading={isLoading}
+                onPress={handleAddExpense}
             />
         </View>
     );

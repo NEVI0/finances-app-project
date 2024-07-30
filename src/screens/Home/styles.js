@@ -55,4 +55,9 @@ export const styles = StyleSheet.create({
         ...theme.typography.text.normal.medium,
         color: theme.colors.others.error,
     },
+    message: {
+        ...theme.typography.text.normal.main,
+        color: theme.colors.text.main,
+        textAlign: 'center',
+    },
 });

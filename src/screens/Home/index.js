@@ -1,21 +1,68 @@
-import { useState } from 'react';
-import { ScrollView, StatusBar, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StatusBar, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { NavActionButton, IconButton, Item, NewItem, Button } from '../../components';
 
 import { formatCurrency } from '../../helpers/formatCurrency';
 
+import { fetchExpensesService } from '../../services/expenses';
+import { fetchEntriesService } from '../../services/entry';
 import { useSession } from '../../contexts';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
 
-export const Home = ({ navigation }) => {
-    const { user } = useSession()
+const DATA_LIMIT = 5;
 
+export const Home = ({ navigation }) => {
+    const { user } = useSession();
+
+    const [entreis, setEntries] = useState([]);
+    const [expenses, setExpenses] = useState([]);
+
+    const [isLoadingEntries, setIsLoadingEntries] = useState(false);
+    const [isLoadingExpenses, setIsLoadingExpenses] = useState(false);
     const [isNewItemModalVisible, setIsNewItemModalVisible] = useState(false);
 
-    console.log({user})
+    const handleFetchEntries = async () => {
+        try {
+            setIsLoadingEntries(true);
+
+            const data = await fetchEntriesService(user.authUid, null, DATA_LIMIT);
+            setEntries(data);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoadingEntries(false);
+        }
+    }
+
+    const handleFetchExpenses = async () => {
+        try {
+            setIsLoadingExpenses(true);
+
+            const data = await fetchExpensesService(user.authUid, null, DATA_LIMIT);
+            setExpenses(data);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoadingExpenses(false);
+        }
+    }
+
+    useEffect(() => {
+        handleFetchEntries();
+        handleFetchExpenses();
+    }, []);
 
     return (
         <ScrollView style={styles.container}>
@@ -80,13 +127,18 @@ export const Home = ({ navigation }) => {
 
                 <View style={styles.subsection}>
                     {
-                        new Array(8).fill(0).map((_, index) => (
+                        isLoadingEntries ? (
+                            <ActivityIndicator color={theme.colors.primary} />
+                        ) : !entreis.length ? (
+                            <Text style={styles.message}>
+                                Sem nenhuma entrada cadastrada!
+                            </Text>
+                        ) : entreis.map(entry => (
                             <Item
-                                key={index}
-                                name="Nome do item"
-                                category="Categoria"
-                                value={2000}
-                                onPress={() => console.log(index)}
+                                key={entry.title}
+                                name={entry.title}
+                                category={entry.category.label}
+                                value={entry.value}
                             />
                         ))
                     }
@@ -100,13 +152,18 @@ export const Home = ({ navigation }) => {
 
                 <View style={styles.subsection}>
                     {
-                        new Array(8).fill(0).map((_, index) => (
+                        isLoadingExpenses ? (
+                            <ActivityIndicator color={theme.colors.primary} />
+                        ) : !expenses.length ? (
+                            <Text style={styles.message}>
+                                Sem nenhuma saída cadastrada!
+                            </Text>
+                        ) : expenses.map(expense => (
                             <Item
-                                key={index}
-                                name="Nome do item"
-                                category="Categoria"
-                                value={2000}
-                                onPress={() => console.log(index)}
+                                key={expense.title}
+                                name={expense.title}
+                                category={expense.category.label}
+                                value={expense.value}
                             />
                         ))
                     }

@@ -1,14 +1,45 @@
-import { useState } from 'react';
-import { ScrollView, StatusBar, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StatusBar, Text, View } from 'react-native';
+
+import Toast from 'react-native-toast-message';
 
 import { NavActionButton, IconButton, Category, SearchBox, AddCategory } from '../../components';
+
+import { fetchCategoriesService } from '../../services/category';
+import { useSession } from '../../contexts';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
 
 export const Categories = ({ navigation }) => {
     const [search, setSearch] = useState('');
-    const [ativo, setAtivo] = useState(false);
+    const [categories, setCategories] = useState([]);
+
+    const [isLoadingData, setIsLoadingData] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const { user } = useSession();
+
+    const handleFetchCategories = async () => {
+        try {
+            setIsLoadingData(true);
+
+            const data = await fetchCategoriesService(user.authUid, search);
+            setCategories(data);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoadingData(false);
+        }
+    }
+
+    useEffect(() => {
+        handleFetchCategories();
+    }, [search]);
 
     return (
         <ScrollView style={styles.container}>
@@ -24,7 +55,7 @@ export const Categories = ({ navigation }) => {
                 <IconButton
                     icon="plus"
                     color={theme.colors.primary}
-                    onPress={() => setAtivo(true)}
+                    onPress={() => setIsModalVisible(true)}
                 />
             </View>
 
@@ -36,18 +67,27 @@ export const Categories = ({ navigation }) => {
 
             <View style={styles.section}>
                 {
-                    new Array(10).fill(0).map((_, index) => (
+                    isLoadingData ? (
+                        <ActivityIndicator color={theme.colors.primary} />
+                    ) : !categories.length ? (
+                        <Text style={styles.message}>
+                            Sem nenhuma categoria cadastrada!
+                        </Text>
+                    ) : categories.map(category => (
                         <Category
-                            key={index}
-                            name="Nome da categoria"
-                            onDelete={() => console.log(index)}
+                            key={category.name}
+                            name={category.name}
                         />
                     ))
                 }
             </View>
+
             <AddCategory
-                open={ativo}
-                onClose={()=>{setAtivo(false)}}
+                open={isModalVisible}
+                onClose={() => {
+                    setIsModalVisible(false);
+                    handleFetchCategories();
+                }}
             />
         </ScrollView>
     );

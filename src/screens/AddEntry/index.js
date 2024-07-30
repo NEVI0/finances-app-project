@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StatusBar, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { Button, NavActionButton, Input, Select } from '../../components';
+
+import { createEntryService } from '../../services/entry';
+import { fetchCategoriesService } from '../../services/category';
+import { useSession } from '../../contexts';
 
 import { styles } from './styles';
 
@@ -12,10 +17,98 @@ export const AddEntry = ({ navigation }) => {
     const [value, setValue] = useState('');
     const [date, setDate] = useState('');
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [categories, setCategories] = useState([]);
 
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+
+    const { user } = useSession();
+
+    const handleFetchCategories = async () => {
+        try {
+            setIsLoadingCategories(true);
+
+            const data = await fetchCategoriesService(user.authUid);
+            setCategories(data);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoadingCategories(false);
+        }
+    }
+
+    const handleAddEntry = async () => {
+        try {
+            if (!title) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar o título!',
+                });
+            }
+            if (!category) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar a categoria!',
+                });
+            }
+            if (!value) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar o valor!',
+                });
+            }
+            if (!date) {
+                return Toast.show({
+                    type: 'error',
+                    text1: 'Alerta!',
+                    text2: 'Você precisa informar a data!',
+                });
+            }
+
+            setIsLoading(true);
+
+            await createEntryService({
+                authUid: user.authUid,
+                title,
+                category,
+                value,
+                date,
+            });
+
+            setTitle('');
+            setCategory(null);
+            setValue('');
+            setDate('');
+            
+            navigation.navigate('Entries');
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            }); 
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const categoriesOptions = useMemo(() => {
+        return categories.map(category => ({
+            label: category.name,
+            value: category.name,
+        }));
+    }, [categories])
+
+    useEffect(() => {
+        handleFetchCategories();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -44,17 +137,15 @@ export const AddEntry = ({ navigation }) => {
                 <Select
                     label="Categoria"
                     selectedValue={category}
+                    loading={isLoadingCategories}
                     onSelect={option => setCategory(option)}
-                    options={
-                        new Array(10).fill(0).map((_, index) => ({
-                            value: index, label: 'Item ' + index
-                        }))
-                    }
+                    options={categoriesOptions}
                 />
 
                 <Input
                     label="Valor de entrada"
                     icon="dollar"
+                    type={{ keyboard: 'numeric' }}
                     value={value}
                     onChangeText={setValue}
                 />
@@ -71,7 +162,8 @@ export const AddEntry = ({ navigation }) => {
             <Button
                 text="Adicionar"
                 icon="plus"
-                onPress={() => console.log('Log In')}
+                loading={isLoading}
+                onPress={handleAddEntry}
             />
         </View>
     );
