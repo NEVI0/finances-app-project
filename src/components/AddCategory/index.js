@@ -1,16 +1,44 @@
+import { useState } from 'react';
 import { Modal, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
+import { createCategoryService } from '../../services/category';
+import { useSession } from '../../contexts';
+
+import { Input } from '../Input';
+import { Button } from '../Button';
 import { IconButton } from '../IconButton';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
-import { Input } from '../Input';
-import { Button } from '../Button';
-import { useState } from 'react';
 
 export const AddCategory = ({ open, onClose }) => {
+    const [name, setName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [nome, setNome] = useState('')
+    const { user } = useSession();
+
+    const handleAddCategory = async () => {
+        try {
+            setIsLoading(true);
+
+            await createCategoryService({
+                authUid: user.authUid,
+                name
+            });
+
+            setName('');
+            onClose();
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Alerta!',
+                text2: error.message,
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <Modal
@@ -36,17 +64,20 @@ export const AddCategory = ({ open, onClose }) => {
 
                     <View style={styles.content}>
                         <Input
-                            label={'Nome'}
-                            icon={'edit'}
-                            value={nome}
-                            onChangeText={setNome}
-                        />
-                        <Button
-                            text={'Adicionar'}
-                            icon={'plus'}
-                            onPress={onClose}
+                            label="Nome"
+                            icon="edit"
+                            background="main"
+                            value={name}
+                            onChangeText={setName}
                         />
                     </View>
+
+                    <Button
+                        text="Adicionar"
+                        icon="plus"
+                        loading={isLoading}
+                        onPress={handleAddCategory}
+                    />
                 </View>
             </View>
         </Modal>
