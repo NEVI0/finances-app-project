@@ -3,11 +3,16 @@ import { StatusBar, Text, View } from 'react-native';
 import { NavActionButton, IconButton, Button, Icon } from '../../components';
 
 import { formatCurrency } from '../../helpers/formatCurrency';
+import { formatStringToNumber } from '../../helpers/formatStringToNumber';
+
+import { useSession } from '../../contexts';
 
 import { theme } from '../../theme';
 import { styles } from './styles';
 
 export const Profile = ({ navigation }) => {
+    const { user, signout } = useSession();
+
     return (
         <View style={styles.container}>
             <StatusBar animated translucent barStyle="light-content" />
@@ -22,7 +27,7 @@ export const Profile = ({ navigation }) => {
                 <IconButton
                     icon="log-out"
                     color={theme.colors.others.error}
-                    onPress={() => console.log('new')}
+                    onPress={signout}
                 />
             </View>
 
@@ -33,11 +38,11 @@ export const Profile = ({ navigation }) => {
 
                 <View>
                     <Text style={styles.name}>
-                        Nome do usuário
+                        {user.name}
                     </Text>
 
                     <Text style={styles.email}>
-                        email_do_user@gmail.com
+                        {user.email}
                     </Text>
                 </View>
             </View>
@@ -54,7 +59,7 @@ export const Profile = ({ navigation }) => {
                         </Text>
 
                         <Text style={styles.textMedium}>
-                            {formatCurrency(2000)}
+                            {!user.salary ? 'Não informado' : formatCurrency(formatStringToNumber(user.salary))}
                         </Text>
                     </View>
 
@@ -64,29 +69,33 @@ export const Profile = ({ navigation }) => {
                         </Text>
 
                         <Text style={styles.textMedium}>
-                            {formatCurrency(3000)}
+                            {!user.expenses ? 'Não informado' : formatCurrency(formatStringToNumber(user.expenses))}
                         </Text>
                     </View>
 
-                    <View style={styles.row}>
-                        <Text style={styles.text}>
-                            Investimentos mensais
-                        </Text>
+                    {
+                        user.isInvester && <>
+                            <View style={styles.row}>
+                                <Text style={styles.text}>
+                                    Investimentos mensais
+                                </Text>
 
-                        <Text style={styles.textMedium}>
-                            {formatCurrency(1000)}
-                        </Text>
-                    </View>
+                                <Text style={styles.textMedium}>
+                                    {!user.investments ? 'Não informado' : formatCurrency(formatStringToNumber(user.investments))}
+                                </Text>
+                            </View>
 
-                    <View style={styles.row}>
-                        <Text style={styles.text}>
-                            Perfil de investidor
-                        </Text>
+                            <View style={styles.row}>
+                                <Text style={styles.text}>
+                                    Perfil de investidor
+                                </Text>
 
-                        <Text style={styles.textGreen}>
-                            Casca grossa
-                        </Text>
-                    </View>
+                                <Text style={styles.textGreen}>
+                                    {!user.investerProfile.label ? 'Não informado' : user.investerProfile.label}
+                                </Text>
+                            </View>
+                        </>
+                    }
                 </View>
             </View>
 
